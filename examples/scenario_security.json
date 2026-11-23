@@ -1,0 +1,27 @@
+{
+  "id": "security-sql-and-path",
+  "title": "User-controlled SQL and file paths",
+  "description": "A compact Python review scenario containing two independently labeled security defects.",
+  "language": "python",
+  "code": "from pathlib import Path\nimport sqlite3\n\ndef find_user(connection: sqlite3.Connection, username: str):\n    query = f\"SELECT id, name FROM users WHERE name = '{username}'\"\n    return connection.execute(query).fetchone()\n\ndef read_note(root: Path, note_name: str) -> str:\n    return (root / note_name).read_text(encoding=\"utf-8\")\n",
+  "expected_issues": [
+    {
+      "id": "SEC-001",
+      "title": "SQL injection in user lookup",
+      "description": "The username is interpolated directly into SQL rather than passed as a bound parameter.",
+      "severity": "high",
+      "file": "app.py",
+      "line": 5,
+      "category": "sql-injection"
+    },
+    {
+      "id": "SEC-002",
+      "title": "Path traversal in note reader",
+      "description": "An untrusted note name can escape the intended root because the joined path is not resolved and constrained beneath root.",
+      "severity": "high",
+      "file": "app.py",
+      "line": 9,
+      "category": "path-traversal"
+    }
+  ]
+}

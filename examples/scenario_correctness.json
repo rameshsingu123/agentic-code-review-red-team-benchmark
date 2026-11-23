@@ -1,0 +1,18 @@
+{
+  "id": "correctness-pagination-boundary",
+  "title": "Pagination boundary calculation",
+  "description": "A small correctness scenario where the final item is omitted from each page.",
+  "language": "python",
+  "code": "def page_items(items: list[str], page: int, page_size: int) -> list[str]:\n    start = page * page_size\n    end = start + page_size - 1\n    return items[start:end]\n",
+  "expected_issues": [
+    {
+      "id": "COR-001",
+      "title": "Page slice omits its final item",
+      "description": "Python slice end indices are exclusive, so subtracting one causes each page to omit its last intended item.",
+      "severity": "medium",
+      "file": "pagination.py",
+      "line": 3,
+      "category": "off-by-one"
+    }
+  ]
+}

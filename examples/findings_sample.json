@@ -1,0 +1,25 @@
+{
+  "findings": [
+    {
+      "id": "F-001",
+      "title": "Username enables SQL injection",
+      "description": "The f-string inserts username into the SQL statement; a quote-bearing value can alter the query.",
+      "severity": "high",
+      "file": "app.py",
+      "line": 5,
+      "category": "sql-injection",
+      "evidence": "The query f-string interpolates username before execute() receives the SQL.",
+      "evidence_quality": "strong"
+    },
+    {
+      "id": "F-002",
+      "title": "Database access may fail under load",
+      "description": "The connection may be unavailable during concurrent requests.",
+      "severity": "low",
+      "file": "app.py",
+      "line": 6,
+      "evidence": "The function uses a shared connection.",
+      "evidence_quality": "weak"
+    }
+  ]
+}
